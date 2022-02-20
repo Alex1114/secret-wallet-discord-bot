@@ -8,6 +8,10 @@ client = commands.Bot(command_prefix = '!', case_insensitive=True)
 
 ALLOWEDCHARACTERS = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','a','b','c','d','e','f']
 
+db['Addresses'] = []
+db['IDs'] = []
+db['Usernames'] = []
+
 def readfile(filename):
   f = open(filename,'r')
   x = f.read().splitlines()
@@ -56,11 +60,10 @@ async def on_message(message):
       if content[0:2] == '0x':
           if valid_address(content):
               if content not in db['Addresses']:
-                  if (str(message.author.id) not in db['IDs']):
-                      db['IDs'].append(str(message.author.id))
-                      usernames = await client.fetch_user(message.author.id)
-                      db['Usernames'].append(str(usernames))
-                      db['Addresses'].append(content)
+                  db['IDs'].append(str(message.author.id))
+                  usernames = await client.fetch_user(message.author.id)
+                  db['Usernames'].append(str(usernames))
+                  db['Addresses'].append(content)
 
 
 keep_alive()
